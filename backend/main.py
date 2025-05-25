@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+import os
 from fastapi import FastAPI
 from api import root, auth, users, bots, matches
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,6 +12,7 @@ load_dotenv()
 async def lifespan(app: FastAPI):
     print("App started")
     await init_db()
+    auth.init_sso()
     yield
     print("App closing")
 
@@ -22,7 +24,7 @@ app.include_router(bots.router)
 app.include_router(matches.router)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://10.0.0.25:5173"],
+    allow_origins=[os.getenv("FRONTEND_URL", "")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

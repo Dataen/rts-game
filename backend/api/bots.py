@@ -168,7 +168,7 @@ async def run_bot_code(
     try:
         proc = await asyncio.create_subprocess_exec(
             "docker", "run", "--rm",
-            "-v", f"{os.path.abspath(code_path)}:/code",
+            "-v", f"{os.path.abspath(bot_dir)}:/code",
             "python:3.11", "python", f"/code/{file_name}",
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.STDOUT

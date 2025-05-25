@@ -6,13 +6,18 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi_sso.sso.github import GithubSSO
 from urllib.parse import urlencode
 
-router = APIRouter()
+CLIENT_ID="Ov23liC1xYhbMGdCjyLH"
 
-github_sso = GithubSSO(
-    client_id="Ov23liC1xYhbMGdCjyLH",
-    client_secret="bb4f8ec783504c60a783d98afbe058bf1b8af1f9",
-    redirect_uri="http://10.0.0.25:7000/auth/callback",
-)
+router = APIRouter()
+github_sso: GithubSSO = None # type: ignore
+
+def init_sso():
+    global github_sso
+    github_sso = GithubSSO(
+        client_id=CLIENT_ID,
+        client_secret=os.getenv("GITHUB_CLIENT_SECRET", ""),
+        redirect_uri=os.getenv("SSO_REDIRECT_URL", ""),
+    )
 
 @router.get("/auth/login")
 async def login():

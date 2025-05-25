@@ -137,7 +137,7 @@ export default function BotCode() {
                     onBlur={() => handleUpload(code)}
                 />}
 
-            <Button startIcon={<FaPlay size={24} />} variant="contained" onClick={handleRun} disabled={running || saveState === 'saving'}>
+            <Button startIcon={<FaPlay size={24} />} variant="contained" onClick={handleRun} disabled={running}>
                 Run
             </Button>
 
@@ -152,7 +152,6 @@ export default function BotCode() {
                             readOnly: true
                         }
                     }}
-                    sx={{ mt: 2 }}
                 />
             )}
         </Stack>
